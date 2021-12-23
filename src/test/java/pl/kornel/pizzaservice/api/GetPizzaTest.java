@@ -31,6 +31,5 @@ public class GetPizzaTest extends BasePizzaTest {
         // cleanup
         pizzaRepository.deleteByName(pizza1.getName());
         pizzaRepository.deleteByName(hawaii.getName());
-
     }
 }

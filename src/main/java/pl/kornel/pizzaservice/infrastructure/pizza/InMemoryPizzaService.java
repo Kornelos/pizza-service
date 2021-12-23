@@ -17,7 +17,6 @@ public class InMemoryPizzaService implements PizzaService {
         this.pizzaRepository = pizzaRepository;
     }
 
-
     @Override
     public List<Pizza> getAll() {
         return pizzaRepository.findAll().stream().map(PizzaEntity::toPizza).collect(Collectors.toList());
@@ -43,7 +42,25 @@ public class InMemoryPizzaService implements PizzaService {
 
     @Override
     public void updatePizza(Pizza pizza) {
-        deletePizzaByName(pizza.getName());
-        addPizza(pizza);
+        if (!pizzaRepository.existsByName(pizza.getName())) {
+            throw new PizzaDoesNotExistsException(pizza.getName());
+        }
+        PizzaEntity existingPizza = pizzaRepository.findByName(pizza.getName());
+        pizzaRepository.save(createUpdatedPizza(existingPizza, pizza)); // spring jpa performs merge on save operation
     }
+
+    private PizzaEntity createUpdatedPizza(PizzaEntity existingPizza, Pizza pizzaUpdate) {
+        PizzaEntity updated = new PizzaEntity(existingPizza);
+        if (pizzaUpdate.getPrice() != existingPizza.getPrice()) {
+            updated.setPrice(pizzaUpdate.getPrice());
+        }
+        if (pizzaUpdate.getSize() != existingPizza.getSize()) {
+            updated.setSize(pizzaUpdate.getSize());
+        }
+        if (!existingPizza.getIngredients().containsAll(pizzaUpdate.getIngredients())) {
+            updated.setIngredients(pizzaUpdate.getIngredients());
+        }
+        return updated;
+    }
+
 }

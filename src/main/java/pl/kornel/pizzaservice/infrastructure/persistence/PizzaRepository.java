@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 
 @Repository
 public interface PizzaRepository extends JpaRepository<PizzaEntity, Long> {
+
     PizzaEntity findByName(String name);
 
     boolean existsByName(String name);

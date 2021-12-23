@@ -33,6 +33,14 @@ public class PizzaEntity {
     @ElementCollection(fetch = FetchType.EAGER)
     private List<Ingredient> ingredients;
 
+    public PizzaEntity(PizzaEntity pizzaEntity) {
+        this.id = pizzaEntity.id;
+        this.name = pizzaEntity.name;
+        this.size = pizzaEntity.size;
+        this.price = pizzaEntity.price;
+        this.ingredients = pizzaEntity.ingredients;
+    }
+
     public PizzaEntity(String name, int size, int price, List<Ingredient> ingredients) {
         this.name = name;
         this.size = size;
@@ -84,5 +92,7 @@ public class PizzaEntity {
         return new Pizza(name,size,price,ingredients);
     }
 
-
+    public long getId() {
+        return id;
+    }
 }
