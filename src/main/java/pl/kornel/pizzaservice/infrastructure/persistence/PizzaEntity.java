@@ -1,7 +1,7 @@
 package pl.kornel.pizzaservice.infrastructure.persistence;
 
 import pl.kornel.pizzaservice.domain.pizza.Ingredient;
-import pl.kornel.pizzaservice.domain.pizza.Pizza;
+import pl.kornel.pizzaservice.infrastructure.pizza.PizzaJson;
 
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -52,7 +52,7 @@ public class PizzaEntity {
 
     }
 
-    public static PizzaEntity fromPizza(Pizza pizza) {
+    public static PizzaEntity fromPizza(PizzaJson pizza) {
         return new PizzaEntity(pizza.getName(),pizza.getSize(),pizza.getPrice(),pizza.getIngredients());
     }
 
@@ -88,8 +88,8 @@ public class PizzaEntity {
         this.ingredients = ingredients;
     }
 
-    public Pizza toPizza(){
-        return new Pizza(name,size,price,ingredients);
+    public PizzaJson toPizza(){
+        return new PizzaJson(name,size,price,ingredients);
     }
 
     public long getId() {

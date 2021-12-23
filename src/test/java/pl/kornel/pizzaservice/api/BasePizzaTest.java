@@ -9,7 +9,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import pl.kornel.pizzaservice.domain.pizza.Pizza;
+import pl.kornel.pizzaservice.infrastructure.pizza.PizzaJson;
 import pl.kornel.pizzaservice.infrastructure.persistence.PizzaEntity;
 import pl.kornel.pizzaservice.infrastructure.persistence.PizzaRepository;
 
@@ -28,11 +28,11 @@ abstract class BasePizzaTest {
     @Autowired
     PizzaRepository pizzaRepository;
 
-    protected void addPizza(Pizza pizza) {
+    protected void addPizza(PizzaJson pizza) {
         pizzaRepository.save(PizzaEntity.fromPizza(pizza));
     }
 
-    protected HttpEntity<String> createPizzaEntity(Pizza pizza) throws JsonProcessingException {
+    protected HttpEntity<String> createPizzaEntity(PizzaJson pizza) throws JsonProcessingException {
         String pizzaJsonString = objectMapper.writeValueAsString(pizza);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(APPLICATION_JSON);

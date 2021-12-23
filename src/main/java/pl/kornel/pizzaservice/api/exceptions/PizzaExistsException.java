@@ -1,4 +1,4 @@
-package pl.kornel.pizzaservice.infrastructure.pizza;
+package pl.kornel.pizzaservice.api.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

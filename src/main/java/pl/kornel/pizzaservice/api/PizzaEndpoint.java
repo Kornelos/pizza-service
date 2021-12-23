@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import pl.kornel.pizzaservice.domain.pizza.Pizza;
+import pl.kornel.pizzaservice.infrastructure.pizza.PizzaJson;
 import pl.kornel.pizzaservice.domain.pizza.PizzaService;
 
 import java.util.List;
@@ -34,12 +34,12 @@ public class PizzaEndpoint {
     }
 
     @GetMapping(produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Pizza>> getAllPizzas() {
+    public ResponseEntity<List<PizzaJson>> getAllPizzas() {
         return ResponseEntity.ok(pizzaService.getAll());
     }
 
     @PutMapping(consumes = APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> createNewPizza(@RequestBody Pizza pizza) {
+    public ResponseEntity<?> createNewPizza(@RequestBody PizzaJson pizza) {
         logger.info("Got create pizza request: [{}]", pizza);
         pizzaService.addPizza(pizza);
         return ResponseEntity.status(HttpStatus.CREATED).build();
@@ -53,7 +53,7 @@ public class PizzaEndpoint {
     }
 
     @PostMapping
-    public ResponseEntity<?> updatePizza(@RequestBody Pizza pizza) {
+    public ResponseEntity<?> updatePizza(@RequestBody PizzaJson pizza) {
         logger.info("Got update pizza request: [{}]", pizza);
         pizzaService.updatePizza(pizza);
         return ResponseEntity.status(HttpStatus.OK).build();

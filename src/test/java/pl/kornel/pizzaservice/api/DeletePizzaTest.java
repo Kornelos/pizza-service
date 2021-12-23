@@ -5,7 +5,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import pl.kornel.pizzaservice.domain.pizza.Ingredient;
-import pl.kornel.pizzaservice.domain.pizza.Pizza;
+import pl.kornel.pizzaservice.infrastructure.pizza.PizzaJson;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ public class DeletePizzaTest extends BasePizzaTest {
     @Test
     void shouldDeletePizza() {
         // given
-        Pizza pizzaForRemoval = new Pizza("PizzaForRemoval", 32, 3000, List.of(Ingredient.Cheese, Ingredient.TomatoSauce));
+        PizzaJson pizzaForRemoval = new PizzaJson("PizzaForRemoval", 32, 3000, List.of(Ingredient.Cheese, Ingredient.TomatoSauce));
         addPizza(pizzaForRemoval);
         assertThat(pizzaRepository.existsByName(pizzaForRemoval.getName())).isTrue();
         // when
@@ -28,7 +28,7 @@ public class DeletePizzaTest extends BasePizzaTest {
 
     @Test
     void shouldReturnNotFoundIfPizzaDoesNotExist() {
-        Pizza pizzaForRemoval = new Pizza("PizzaForRemoval", 32, 3000, List.of(Ingredient.Cheese, Ingredient.TomatoSauce));
+        PizzaJson pizzaForRemoval = new PizzaJson("PizzaForRemoval", 32, 3000, List.of(Ingredient.Cheese, Ingredient.TomatoSauce));
         assertThat(pizzaRepository.existsByName(pizzaForRemoval.getName())).isFalse();
 
         // when

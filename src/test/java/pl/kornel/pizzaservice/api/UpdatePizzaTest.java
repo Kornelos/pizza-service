@@ -7,7 +7,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import pl.kornel.pizzaservice.domain.pizza.Ingredient;
-import pl.kornel.pizzaservice.domain.pizza.Pizza;
+import pl.kornel.pizzaservice.infrastructure.pizza.PizzaJson;
 import pl.kornel.pizzaservice.infrastructure.persistence.PizzaEntity;
 
 import java.util.List;
@@ -19,10 +19,10 @@ public class UpdatePizzaTest extends BasePizzaTest {
     @Test
     void shouldUpdateExistingPizza() throws JsonProcessingException {
         // given
-        Pizza pizza = new Pizza("PizzaForUpdate", 28, 5231, List.of(Ingredient.Cheese, Ingredient.TomatoSauce, Ingredient.Mushroom));
+        PizzaJson pizza = new PizzaJson("PizzaForUpdate", 28, 5231, List.of(Ingredient.Cheese, Ingredient.TomatoSauce, Ingredient.Mushroom));
         addPizza(pizza);
         assertThat(pizzaRepository.existsByName(pizza.getName())).isTrue();
-        Pizza pizzaUpdate = new Pizza(pizza.getName(), 42, 6000, List.of(Ingredient.Pineapple, Ingredient.Cheese));
+        PizzaJson pizzaUpdate = new PizzaJson(pizza.getName(), 42, 6000, List.of(Ingredient.Pineapple, Ingredient.Cheese));
 
         // when
         testRestTemplate.exchange("/pizzas", HttpMethod.POST, createUpdatePizzaEntity(pizzaUpdate), String.class);
@@ -40,10 +40,10 @@ public class UpdatePizzaTest extends BasePizzaTest {
 
     @Test
     void idShouldNotChangeAfterUpdate() throws JsonProcessingException {
-        Pizza pizza = new Pizza("PizzaForUpdate", 28, 5231, List.of(Ingredient.Cheese, Ingredient.TomatoSauce, Ingredient.Mushroom));
+        PizzaJson pizza = new PizzaJson("PizzaForUpdate", 28, 5231, List.of(Ingredient.Cheese, Ingredient.TomatoSauce, Ingredient.Mushroom));
         addPizza(pizza);
         PizzaEntity beforeUpdate = pizzaRepository.findByName(pizza.getName());
-        Pizza pizzaUpdate = new Pizza("PizzaForUpdate", 100, 5231, List.of(Ingredient.Pineapple));
+        PizzaJson pizzaUpdate = new PizzaJson("PizzaForUpdate", 100, 5231, List.of(Ingredient.Pineapple));
 
         // when
         testRestTemplate.exchange("/pizzas", HttpMethod.POST, createUpdatePizzaEntity(pizzaUpdate), String.class);
@@ -62,7 +62,7 @@ public class UpdatePizzaTest extends BasePizzaTest {
     @Test
     void shouldReturnNotFoundIfPizzaDoesNotExist() throws JsonProcessingException {
         // given
-        Pizza nonExisting = new Pizza("non-existing",33,3425,List.of(Ingredient.TomatoSauce));
+        PizzaJson nonExisting = new PizzaJson("non-existing",33,3425,List.of(Ingredient.TomatoSauce));
         assertThat(pizzaRepository.existsByName(nonExisting.getName())).isFalse();
 
         // when
@@ -72,7 +72,7 @@ public class UpdatePizzaTest extends BasePizzaTest {
         assertThat(result.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
     }
 
-    private HttpEntity<String> createUpdatePizzaEntity(Pizza pizzaUpdate) throws JsonProcessingException {
+    private HttpEntity<String> createUpdatePizzaEntity(PizzaJson pizzaUpdate) throws JsonProcessingException {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(APPLICATION_JSON);
         String pizzaUpdateJsonString = objectMapper.writeValueAsString(pizzaUpdate);
