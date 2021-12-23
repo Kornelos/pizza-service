@@ -13,10 +13,12 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import pl.kornel.pizzaservice.infrastructure.pizza.PizzaJson;
+import pl.kornel.pizzaservice.domain.pizza.Pizza;
 import pl.kornel.pizzaservice.domain.pizza.PizzaService;
+import pl.kornel.pizzaservice.infrastructure.pizza.PizzaJson;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -35,11 +37,12 @@ public class PizzaEndpoint {
 
     @GetMapping(produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<List<PizzaJson>> getAllPizzas() {
-        return ResponseEntity.ok(pizzaService.getAll());
+        return ResponseEntity.ok(pizzaService.getAll().stream().map(PizzaJson::fromPizza).collect(Collectors.toList()));
     }
 
     @PutMapping(consumes = APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> createNewPizza(@RequestBody PizzaJson pizza) {
+    public ResponseEntity<?> createNewPizza(@RequestBody PizzaJson pizzaJson) {
+        Pizza pizza = pizzaJson.toPizza();
         logger.info("Got create pizza request: [{}]", pizza);
         pizzaService.addPizza(pizza);
         return ResponseEntity.status(HttpStatus.CREATED).build();
@@ -53,7 +56,8 @@ public class PizzaEndpoint {
     }
 
     @PostMapping
-    public ResponseEntity<?> updatePizza(@RequestBody PizzaJson pizza) {
+    public ResponseEntity<?> updatePizza(@RequestBody PizzaJson pizzaJson) {
+        Pizza pizza = pizzaJson.toPizza();
         logger.info("Got update pizza request: [{}]", pizza);
         pizzaService.updatePizza(pizza);
         return ResponseEntity.status(HttpStatus.OK).build();

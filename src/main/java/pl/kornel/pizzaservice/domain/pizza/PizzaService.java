@@ -1,15 +1,13 @@
 package pl.kornel.pizzaservice.domain.pizza;
 
-import pl.kornel.pizzaservice.infrastructure.pizza.PizzaJson;
-
 import java.util.List;
 
 public interface PizzaService {
-    List<PizzaJson> getAll();
+    List<Pizza> getAll();
 
-    void addPizza(PizzaJson pizza);
+    void addPizza(Pizza pizza);
 
     void deletePizzaByName(String name);
 
-    void updatePizza(PizzaJson pizza);
+    void updatePizza(Pizza pizza);
 }

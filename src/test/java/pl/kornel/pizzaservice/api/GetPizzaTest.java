@@ -2,6 +2,7 @@ package pl.kornel.pizzaservice.api;
 
 import org.junit.jupiter.api.Test;
 import pl.kornel.pizzaservice.domain.pizza.Ingredient;
+import pl.kornel.pizzaservice.domain.pizza.Pizza;
 import pl.kornel.pizzaservice.infrastructure.pizza.PizzaJson;
 
 import java.util.List;
@@ -15,9 +16,9 @@ public class GetPizzaTest extends BasePizzaTest {
     @Test
     void shouldGetListOfPizzas() {
         // given
-        PizzaJson pizza1 = new PizzaJson("Pizza1", 30, 4000, List.of(Ingredient.Cheese));
+        Pizza pizza1 = new Pizza("Pizza1", 30, 4000, List.of(Ingredient.Cheese));
         addPizza(pizza1);
-        PizzaJson hawaii = new PizzaJson("Hawaii", 42, 5000, List.of(Ingredient.Cheese, Ingredient.Pineapple, Ingredient.Ham));
+        Pizza hawaii = new Pizza("Hawaii", 42, 5000, List.of(Ingredient.Cheese, Ingredient.Pineapple, Ingredient.Ham));
         addPizza(hawaii);
 
         // when

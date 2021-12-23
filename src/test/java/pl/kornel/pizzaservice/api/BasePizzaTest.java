@@ -9,6 +9,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import pl.kornel.pizzaservice.domain.pizza.Pizza;
 import pl.kornel.pizzaservice.infrastructure.pizza.PizzaJson;
 import pl.kornel.pizzaservice.infrastructure.persistence.PizzaEntity;
 import pl.kornel.pizzaservice.infrastructure.persistence.PizzaRepository;
@@ -28,7 +29,7 @@ abstract class BasePizzaTest {
     @Autowired
     PizzaRepository pizzaRepository;
 
-    protected void addPizza(PizzaJson pizza) {
+    protected void addPizza(Pizza pizza) {
         pizzaRepository.save(PizzaEntity.fromPizza(pizza));
     }
 
